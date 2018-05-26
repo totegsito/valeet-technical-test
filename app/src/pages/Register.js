@@ -26,7 +26,29 @@ class Login extends Component {
     return (
       <section className="columns">
         <div className="column is-half is-offset-one-quarter">
-          <h1 className="title is-1">Login</h1>
+          <h1 className="title is-1">Register</h1>
+          <div className="field">
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                placeholder="Name"
+                id="registerNameInput"
+                onChange={e => this.handleChange('name', e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                placeholder="Surname"
+                id="registerSurnameInput"
+                onChange={e => this.handleChange('surname', e.target.value)}
+              />
+            </div>
+          </div>
           <div className="field">
             <div className="control">
               <input
@@ -46,6 +68,17 @@ class Login extends Component {
                 placeholder="Password"
                 id="registerPasswordInput"
                 onChange={e => this.handleChange('password', e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <div className="control">
+              <input
+                type="password"
+                className="input"
+                placeholder="Confirm password"
+                id="registerConfirmPasswordInput"
+                onChange={e => this.handleChange('confirmPassword', e.target.value)}
               />
             </div>
           </div>
