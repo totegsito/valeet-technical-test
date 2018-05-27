@@ -1,9 +1,9 @@
 {
-  "extends": "airbnb",
-  "plugins": [ "react" ],
-  "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "import/no-named-as-default": ["off"],
-    "import/no-named-as-default-member": ["off"],
-  }
+    "extends": "airbnb",
+    "plugins": ["react"],
+    "rules": {
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "import/no-named-as-default": ["off"],
+        "import/no-named-as-default-member": ["off"]
+    }
 }
