@@ -1,17 +1,43 @@
 const httpClient = require('../utils/httpClient');
 const redisClient = require('../utils/redis');
+const { takeWhatYouNeedFromAComic, takeWhatYouNeedFromAComicList } = require('../utils/comics');
+
 
 const fetchAllComics = params => new Promise((resolve, reject) => {
-  const { offset } = params;
-  redisClient.get(`${offset || 0}-all-comics`, (err, comics) => {
+  const { offset, limit } = params;
+  redisClient.get(`${offset || 0}-${limit || 10}-all-comics`, (err, comics) => {
     if (comics) {
       resolve(JSON.parse(comics));
     } else {
-      httpClient.get('/comics', { orderBy: 'title', formatType: 'comic', ...params })
+      httpClient.get('comics', { orderBy: 'title', formatType: 'comic', ...params })
         .then((response) => {
           const { data } = response;
-          redisClient.setex(`${offset}-all-comics`, 60 * 60 * 24, JSON.stringify(data));
-          resolve(data);
+          const exposedData = takeWhatYouNeedFromAComicList(data);
+          redisClient.setex(`${offset || 0}-${limit || 10}-all-comics`, 60 * 60 * 24, JSON.stringify(exposedData));
+          resolve(exposedData);
+        })
+        .catch(reject);
+    }
+  });
+});
+
+const fetchCharacterComics = (characterId, params) => new Promise((resolve, reject) => {
+  const { offset, limit } = params;
+  redisClient.get(`${offset || 0}-${limit || 10}-${characterId}-comics`, (err, comics) => {
+    if (comics) {
+      resolve(JSON.parse(comics));
+    } else {
+      httpClient.get(`characters/${characterId}/comics`, {
+        orderBy: 'title',
+        formatType: 'comic',
+        offset: params.offset || 0,
+        limit: params.limit || 10,
+      })
+        .then((response) => {
+          const { data } = response;
+          const exposedData = takeWhatYouNeedFromAComicList(data);
+          redisClient.setex(`${offset || 0}-${limit || 10}-${characterId}-comics`, 60 * 60 * 24, JSON.stringify(exposedData));
+          resolve(exposedData);
         })
         .catch(reject);
     }
@@ -23,11 +49,12 @@ const fetchComicById = (id, params) => new Promise((resolve, reject) => {
     if (comic) {
       resolve(JSON.parse(comic));
     } else {
-      httpClient.get(`/comics/${id}`, params)
+      httpClient.get(`comics/${id}`, params)
         .then((response) => {
           const { data } = response;
-          redisClient.setex(`${id}-comic`, 60 * 60 * 24, JSON.stringify(data));
-          resolve(data);
+          const parsedData = takeWhatYouNeedFromAComic(data);
+          redisClient.setex(`${id}-comic`, 60 * 60 * 24, JSON.stringify(parsedData));
+          resolve(parsedData);
         })
         .catch(reject);
     }
@@ -36,5 +63,6 @@ const fetchComicById = (id, params) => new Promise((resolve, reject) => {
 
 module.exports = {
   fetchAllComics,
+  fetchCharacterComics,
   fetchComicById,
 };

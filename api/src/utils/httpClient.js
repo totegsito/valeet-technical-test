@@ -14,16 +14,19 @@ const hash = crypto
 const baseParams = {
   ts,
   hash,
-  limit: 20,
+  limit: 10,
+  apikey: marvelAPIKey,
 };
 
 const httpClientInstance = axios.create({
   baseURL,
-  params: qs.baseParams,
+  params: baseParams,
 });
 
 const get = (url, params) =>
-  httpClientInstance.get(url, { params: qs.stringify({ ...baseParams, params }) });
+  httpClientInstance.get(url, { params: { ...baseParams, ...params } });
 
 
-module.exports = get;
+module.exports = {
+  get,
+};

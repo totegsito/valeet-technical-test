@@ -1,6 +1,10 @@
 const redis = require('redis');
 const { redisPort, redisHost } = require('../../config/redis');
 
-redis.createClient(redisPort, redisHost);
+const client = redis.createClient(redisPort, redisHost);
 
-module.exports = redis;
+client.on('error', (err) => {
+  console.error(`Error ${err}`);
+});
+
+module.exports = client;
