@@ -1,0 +1,11 @@
+{
+  "presets": ["env", "airbnb", {
+    "targets": {
+      "node": 6
+    }
+  }],
+  "plugins": [
+    "transform-class-properties",
+    "transform-object-rest-spread"
+  ]
+}
