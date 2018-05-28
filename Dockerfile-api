@@ -6,8 +6,7 @@ WORKDIR /usr/src/api
 # Bundle app source
 COPY api/ .
 
-RUN ls -la \
-  apk --no-cache add --virtual native-deps \
+RUN apk --no-cache add --virtual native-deps \
   g++ gcc libgcc libstdc++ linux-headers make python git openssh && \
   npm install --quiet node-gyp -g &&\
   npm install --quiet && \

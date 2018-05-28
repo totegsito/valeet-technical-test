@@ -2,14 +2,10 @@ version: '3'
 services:
   redis:
     image: redis:3-alpine
-    ports:
-      - "6379:6379"
     volumes:
       - ~/data-valeet/redis:/data/redis
   mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
+    image: mongo:latest
     volumes:
       - "~/data-valeet/mongo:/data/db"
   api:
@@ -18,6 +14,9 @@ services:
       dockerfile: Dockerfile-api
     env_file:
       - ./api/.env
+    environment:
+      - MONGO_HOST=mongo
+      - REDIS_HOST=redis
     ports:
       - "4001:8080"
     depends_on:

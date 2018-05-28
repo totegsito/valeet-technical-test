@@ -19,10 +19,11 @@ const app = require('../src/app');
 const debug = require('debug')('api:server');
 const http = require('http');
 const mongoose = require('mongoose');
-const { databaseURL } = require('../config/database');
+const { name, databaseURL } = require('../config/database');
 
 mongoose.connect(databaseURL)
   .then(() => {
+    console.log(`Connected to ${name} Database`);
     /**
      * Get port from environment and store in Express.
      */

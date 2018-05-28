@@ -1,5 +1,6 @@
 const axios = require('axios');
 const crypto = require('crypto');
+const qs = require('qs');
 
 const ts = new Date().getTime();
 
@@ -18,11 +19,11 @@ const baseParams = {
 
 const httpClientInstance = axios.create({
   baseURL,
-  params: baseParams,
+  params: qs.baseParams,
 });
 
 const get = (url, params) =>
-  httpClientInstance.get(url, { params: { ...baseParams, params } });
+  httpClientInstance.get(url, { params: qs.stringify({ ...baseParams, params }) });
 
 
 module.exports = get;

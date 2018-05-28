@@ -9,7 +9,7 @@ const passport = require('passport');
 
 const { databaseURL } = require('../config/database');
 
-const api = require('./routes/api');
+const api = require('./routes');
 
 mongoose.connect(databaseURL);
 
@@ -29,8 +29,7 @@ app.use((req, res, next) => {
 
 app.use(passport.initialize());
 
-
-app.use('/api', api);
+app.use('/', api);
 
 
 // catch 404 and forward to error handler

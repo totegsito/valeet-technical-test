@@ -1,14 +1,12 @@
 const passport = require('passport');
 const config = require('../../config/database');
 require('../../config/passport')(passport);
-const express = require('express');
 const jwt = require('jsonwebtoken');
 
-const router = express.Router();
 const User = require('../models/user');
 
 
-router.post('/signup', (req, res) => {
+const signUp = (req, res) => {
   if (!req.body.username || !req.body.password) {
     res.json({
       success: false,
@@ -33,9 +31,9 @@ router.post('/signup', (req, res) => {
       });
     });
   }
-});
+};
 
-router.post('/login', (req, res) => {
+const signIn = (req, res) => {
   User.findOne({
     username: req.body.username,
   }, (err, user) => {
@@ -64,6 +62,9 @@ router.post('/login', (req, res) => {
       });
     });
   });
-});
+};
 
-module.exports = router;
+module.exports = {
+  signUp,
+  signIn,
+};
