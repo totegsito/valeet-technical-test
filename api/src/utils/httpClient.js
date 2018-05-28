@@ -1,6 +1,5 @@
 const axios = require('axios');
 const crypto = require('crypto');
-const qs = require('qs');
 
 const ts = new Date().getTime();
 
