@@ -15,14 +15,15 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre('save', (next) => {
+// eslint-disable-next-line func-names
+UserSchema.pre('save', function (next) {
   const user = this;
   if (this.isModified('password') || this.isNew) {
     return bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         return next(err);
       }
-      return bcrypt.hash(user.password, salt, null, (hasHErr, hash) => {
+      return bcrypt.hash(user.password, salt, {}, (hasHErr, hash) => {
         if (hasHErr) {
           return next(hasHErr);
         }
@@ -34,8 +35,10 @@ UserSchema.pre('save', (next) => {
   return next();
 });
 
-UserSchema.methods.comparePassword = (passw, cb) => {
-  bcrypt.compare(passw, this.password, (err, isMatch) => {
+// eslint-disable-next-line func-names
+UserSchema.methods.comparePassword = function (passw, cb) {
+  // eslint-disable-next-line func-names,prefer-arrow-callback
+  bcrypt.compare(passw, this.password, function (err, isMatch) {
     if (err) {
       return cb(err);
     }

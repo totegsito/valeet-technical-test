@@ -46,15 +46,17 @@ const signIn = (req, res) => {
       });
     }
     // check if password matches
-    return user.comparePassword(req.body.password, (passwordErr, isMatch) => {
+    // eslint-disable-next-line func-names,prefer-arrow-callback
+    return user.comparePassword(req.body.password, function (passwordErr, isMatch) {
       if (!isMatch || passwordErr) {
         return res.status(401).send({
           success: false,
           msg: 'Authentication failed. Wrong password.',
         });
       }
+      const { username, password } = user;
       // if user is found and password is right create a token
-      const token = jwt.sign(user, config.secret);
+      const token = jwt.sign({ username, password }, config.secret, { expiresIn: 60 * 60 });
       // return the information including token as JSON
       return res.json({
         success: true,
