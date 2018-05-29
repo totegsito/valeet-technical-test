@@ -1,6 +1,6 @@
-const baseURL = process.env.API_URL || 'localhost:8080';
+const baseURL = process.env.API_URL || 'http://localhost:4001';
 
-export const baseUrl = `http://${baseURL}`;
+export const baseUrl = baseURL;
 
 export default {
   baseUrl,

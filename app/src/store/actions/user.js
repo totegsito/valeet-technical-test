@@ -19,10 +19,7 @@ export function signUp(formData) {
     await statusMessage(dispatch, 'loading', true);
 
     return createUser({ username, password })
-      .catch((err) => {
-        console.log(err);
-        reject(err);
-      })
+      .catch(reject)
       .then(() => statusMessage(dispatch, 'loading', false)
         .catch(reject)
         .then(() => statusMessage(dispatch, 'success', 'User created successfully'))

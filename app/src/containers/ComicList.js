@@ -7,8 +7,6 @@ import { setLoadingStatus } from '../store/actions/status';
 
 import ComicList from '../components/ComicList';
 
-console.log(setCurrentComic);
-
 const ComicListContainer = ({
   superhero,
   setLoading,

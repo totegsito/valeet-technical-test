@@ -1,16 +1,25 @@
-FROM node:carbon-alpine
+FROM node:9-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Bundle app source
-COPY app/ .
+COPY app/config ./config
+COPY app/public ./public
+COPY app/scripts ./scripts
+COPY app/src ./src
+COPY app/.babelrc ./.babelrc
+COPY app/.env ./.env
+COPY app/.eslintrc ./.eslintrc
+COPY app/package.json ./package.json
 
 RUN apk --no-cache add --virtual native-deps \
   g++ gcc libgcc libstdc++ linux-headers make python git openssh && \
   npm install --quiet node-gyp -g &&\
+  npm install --quiet serve -g &&\
   npm install --quiet && \
+  npm run build && \
   apk del native-deps
 
 # EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD [ "serve", "help" ]

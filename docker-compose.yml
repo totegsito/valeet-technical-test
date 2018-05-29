@@ -12,6 +12,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-api
+    restart: always
     env_file:
       - ./api/.env
     environment:
@@ -22,6 +23,8 @@ services:
     depends_on:
       - redis
       - mongo
+    links:
+      - mongo
   web:
     build:
       context: .
@@ -29,7 +32,7 @@ services:
     env_file:
       - ./app/.env
     environment:
-      - API_URL=localhost:8080
+      - API_URL=http://localhost:4001
     ports:
       - "4000:3000"
     depends_on:
