@@ -1,8 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
-import { BrowserRouter, NavLink, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BrowserRouter, NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import Home from '../pages/Home';
+
 import Login from '../pages/Login';
+import Notification from '../containers/Notification';
+import LoginContainer from '../containers/Login';
+
 import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
 import Loader from '../components/Loader';
@@ -10,6 +15,8 @@ import Loader from '../components/Loader';
 // eslint-disable-next-line react/prefer-stateless-function
 class Routes extends Component {
   render() {
+    const { user, error } = this.props;
+    console.log(user);
     return (
       <BrowserRouter>
         <div>
@@ -19,18 +26,33 @@ class Routes extends Component {
             </div>
             <div className="navbar-menu">
               <div className="navbar-end" position="end">
-                <NavLink to="login" className="navbar-item">Login</NavLink>
-                <NavLink to="register" className="navbar-item">Register</NavLink>
+                {
+                  (!user || !user.isLoggedIn) &&
+                  [
+                    <NavLink key="login" to="login" className="navbar-item">Login</NavLink>,
+                    <NavLink
+                      key="register"
+                      to="register"
+                      className="navbar-item"
+                    >
+                      Register
+                    </NavLink>,
+                  ]
+                }
               </div>
             </div>
           </nav>
           <Loader />
-          <main className="container">
+          <main className="container is-warning">
+            {
+              error &&
+              <Notification message={error} />
+            }
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
                 path="/login"
-                component={Login}
+                render={props => (user.loggedIn ? <Redirect to="/home" /> : <LoginContainer {...props} Layout={Login} />)}
               />
               <Route
                 path="/register"
@@ -44,5 +66,15 @@ class Routes extends Component {
     );
   }
 }
+
+Routes.propTypes = {
+  user: PropTypes.shape({}).isRequired,
+  error: PropTypes.string,
+};
+
+Routes.defaultProps = {
+  error: null,
+};
+
 
 export default Routes;
