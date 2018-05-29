@@ -61,7 +61,7 @@ const signIn = (req, res) => {
         id,
         username,
         password,
-      }, config.secret, { expiresIn: 60 * 60 });
+      }, config.secret, { expiresIn: 60 * 60 * 24 * 7 });
       // return the information including token as JSON
       return res.json({
         success: true,
