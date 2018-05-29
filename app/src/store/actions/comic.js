@@ -1,8 +1,7 @@
 import statusMessage from './status';
 import { getComicById } from '../../services/comics';
 
-
-export default function getCurrentComic(comicId) {
+export function setCurrentComic(comicId) {
   return dispatch => new Promise(async (resolve, reject) => {
     if (!comicId) {
       return statusMessage(dispatch, 'loading', false)
@@ -31,3 +30,8 @@ export default function getCurrentComic(comicId) {
     throw err.response.data.message;
   });
 }
+
+
+export default {
+  setCurrentComic,
+};

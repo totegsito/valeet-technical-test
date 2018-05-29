@@ -11,11 +11,16 @@ class ComicList extends Component {
     super(props);
     this.state = {
       comics: [],
-      nextOffset: null,
+      // nextOffset: null,
       hasMoreItems: true,
     };
 
     this.loadItems = this.loadItems.bind(this);
+    this.handleSelectComic = this.handleSelectComic.bind(this);
+  }
+
+  handleSelectComic(comicId) {
+    this.props.onComicSelected(comicId);
   }
 
   async loadItems() {
@@ -40,30 +45,38 @@ class ComicList extends Component {
           this.setState({ ...this.state, hasMoreItems: false });
         }
       })
-      .catch(async () => setLoading(false));
+      .catch(async () => {
+        this.setState({ ...this.state, hasMoreItems: false });
+        await setLoading(false);
+      });
   }
 
   render() {
     const { comics, hasMoreItems } = this.state;
     const items = comics.slice(0).map(comic => (
       <ComicItem
-        key={`comic-${comic.id}-${comic.digitalId}`}
         name={comic.title}
-        description={comic.description}
         thumbnail={comic.thumbnail}
+        description={comic.description}
+        key={`comic-${comic.id}-${comic.digitalId}`}
+        onClick={() => this.handleSelectComic(comic.id)}
       />
     ));
 
     return (
-      <InfiniteScroll
-        pageStart={0}
-        hasMore={hasMoreItems}
-        loadMore={this.loadItems}
-      >
-        <div>
-          {items}
-        </div>
-      </InfiniteScroll>
+      <div className="comics-container">
+        <InfiniteScroll
+          pageStart={0}
+          threshold={10}
+          hasMore={hasMoreItems}
+          loadMore={this.loadItems}
+          useWindow={false}
+        >
+          <div>
+            {items}
+          </div>
+        </InfiniteScroll>
+      </div>
     );
   }
 }
@@ -73,6 +86,7 @@ ComicList.propTypes = {
     id: PropTypes.oneOfType(['number', 'string']),
   }).isRequired,
   setLoading: PropTypes.func.isRequired,
+  onComicSelected: PropTypes.func.isRequired,
 };
 
 export default ComicList;

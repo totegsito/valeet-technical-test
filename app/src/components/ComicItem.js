@@ -1,24 +1,32 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 const ComicItem = ({
   name,
+  onClick,
   thumbnail,
-  description,
 }) => (
-  <article className="media">
+  <article className="media comic-item">
     <figure className="media-left">
-      <p className="image is-64x64">
-        <img src={`${thumbnail.path}/portrait_xlarge.${thumbnail.extension}`} alt={`${name} cover placeholder`} />
+      <p className="image is-48x48 is-2by3">
+        <img
+
+          src={`${thumbnail.path}/portrait_small.${thumbnail.extension}`}
+          alt={`${name} cover placeholder`}
+        />
       </p>
     </figure>
     <div className="media-content">
-      <div className="content">
-        <p>
-          <strong>{name}</strong>
-          <br />
-          {description}
-        </p>
+      <div className="content has-text-dark has-text-weith-bold is-uppercase">
+        <a
+          tabIndex="0"
+          role="button"
+          onClick={onClick}
+          onKeyPress={onClick}
+        >
+          {name}
+        </a>
       </div>
     </div>
   </article>
@@ -30,13 +38,12 @@ ComicItem.propTypes = {
     extension: PropTypes.string,
     path: PropTypes.string,
   }),
-  description: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
 };
 
 ComicItem.defaultProps = {
   name: null,
   thumbnail: {},
-  description: null,
 };
 
 export default ComicItem;

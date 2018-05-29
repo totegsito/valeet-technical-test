@@ -26,6 +26,16 @@
   overflow: hidden;
 }
 
+.has-navbar-fixed-top {
+  padding-top: 60px;
+}
+
+.comics-container {
+  max-height: 400px;
+  overflow: auto;
+  overflow-y: scroll;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

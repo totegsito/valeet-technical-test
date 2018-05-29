@@ -2,52 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { setCurrentComic } from '../store/actions/comic';
 import { setLoadingStatus } from '../store/actions/status';
 
+import ComicList from '../components/ComicList';
+
+console.log(setCurrentComic);
+
 const ComicListContainer = ({
-  user,
-  Layout,
-  loading,
   superhero,
   setLoading,
-  errorMessage,
-  successMessage,
+  onComicSelected,
 }) => (
-  <Layout
-    user={user}
-    loading={loading}
-    error={errorMessage}
+  <ComicList
     superhero={superhero}
-    success={successMessage}
     setLoading={setLoading}
+    onComicSelected={onComicSelected}
   />
 );
 
 ComicListContainer.propTypes = {
-  errorMessage: PropTypes.string,
-  successMessage: PropTypes.string,
-  Layout: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  user: PropTypes.shape({}).isRequired,
   setLoading: PropTypes.func.isRequired,
+  onComicSelected: PropTypes.func.isRequired,
   superhero: PropTypes.shape({}).isRequired,
 };
 
-ComicListContainer.defaultProps = {
-  errorMessage: null,
-  successMessage: null,
-};
-
 const mapStateToProps = state => ({
-  user: state.user || {},
   superhero: state.superhero || {},
-  loading: state.status.loading || false,
-  errorMessage: state.status.error || null,
-  successMessage: state.status.success || null,
 });
 
 const mapDispatchToProps = {
   setLoading: setLoadingStatus,
+  onComicSelected: setCurrentComic,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComicListContainer);

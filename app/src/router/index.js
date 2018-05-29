@@ -7,8 +7,10 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import LoginContainer from '../containers/Login';
 
-import ComicsList from '../components/ComicList';
-import ComicsListContainer from '../containers/ComicList';
+// import ComicsList from '../components/ComicList';
+// import ComicsListContainer from '../containers/ComicList';
+
+import Main from '../pages/MainPage';
 
 import Notification from '../containers/Notification';
 
@@ -38,7 +40,7 @@ class Routes extends Component {
     return (
       <BrowserRouter>
         <div>
-          <nav className="navbar is-primary">
+          <nav className="navbar is-primary is-fixed-top">
             <div className="navbar-brand">
               <NavLink className="navbar-item" to="/">Home</NavLink>
             </div>
@@ -56,15 +58,18 @@ class Routes extends Component {
                       Register
                     </NavLink>,
                   ]) ||
-                  <a
-                    tabIndex="0"
-                    role="button"
-                    className="navbar-item"
-                    onClick={this.handleLogout}
-                    onKeyPress={this.handleLogout}
-                  >
-                  Logout
-                  </a>
+                  [
+                    <p className="navbar-item">{user.username}</p>,
+                    <a
+                      tabIndex="0"
+                      role="button"
+                      className="navbar-item"
+                      onClick={this.handleLogout}
+                      onKeyPress={this.handleLogout}
+                    >
+                      Logout
+                    </a>,
+                  ]
                 }
               </div>
             </div>
@@ -82,10 +87,10 @@ class Routes extends Component {
               <Route
                 exact
                 path="/"
-                render={props =>
+                render={() =>
                   (user.isLoggedIn ?
-                    <ComicsListContainer {...props} Layout={ComicsList} /> :
-                    <Home {...props} />)
+                    <Main /> :
+                    <Home />)
                 }
               />
               <Route

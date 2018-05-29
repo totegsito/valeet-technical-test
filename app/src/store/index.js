@@ -9,7 +9,7 @@ import reducers from './reducers';
 const config = {
   key: 'root',
   storage,
-  blacklist: ['status'],
+  blacklist: ['status', 'comic'],
 };
 
 const reducer = persistCombineReducers(config, reducers);
