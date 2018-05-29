@@ -20,7 +20,6 @@ const signUp = (req, res) => {
     // save the user
     newUser.save((err) => {
       if (err) {
-        console.log(err);
         return res.status(422).json({
           success: false,
           msg: 'Username already exists.',
