@@ -5,7 +5,7 @@ const { takeWhatYouNeedFromAComic, takeWhatYouNeedFromAComicList } = require('..
 
 const fetchAllComics = params => new Promise((resolve, reject) => {
   const { offset, limit } = params;
-  redisClient.get(`${offset || 0}-${limit || 10}-all-comics`, (err, comics) => {
+  redisClient.get(`${offset || 0}-${limit || 5}-all-comics`, (err, comics) => {
     if (comics) {
       resolve(JSON.parse(comics));
     } else {
@@ -13,7 +13,7 @@ const fetchAllComics = params => new Promise((resolve, reject) => {
         .then((response) => {
           const { data } = response;
           const exposedData = takeWhatYouNeedFromAComicList(data);
-          redisClient.setex(`${offset || 0}-${limit || 10}-all-comics`, 60 * 60 * 24, JSON.stringify(exposedData));
+          redisClient.setex(`${offset || 0}-${limit || 5}-all-comics`, 60 * 60 * 24, JSON.stringify(exposedData));
           resolve(exposedData);
         })
         .catch(reject);
