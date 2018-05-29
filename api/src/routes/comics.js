@@ -1,6 +1,5 @@
 const {
   fetchAllComics,
-  fetchCharacterComics,
   fetchComicById,
 } = require('../services/comics');
 
@@ -12,26 +11,7 @@ const getAllComics = (req, res) => {
       success: true,
       ...comics,
     }))
-    .catch(err => res.json({
-      success: false,
-      msg: (
-        err.response &&
-        err.response.data &&
-        err.response.data.message
-      ) || err.msg,
-    }));
-};
-
-const getCharacterComics = (req, res) => {
-  const { query, params } = req;
-  const { characterId } = params;
-  const { offset, limit } = query;
-  fetchCharacterComics(characterId, { offset, limit })
-    .then(comics => res.json({
-      success: true,
-      ...comics,
-    }))
-    .catch(err => res.json({
+    .catch(err => res.status(404).json({
       success: false,
       msg: (
         err.response &&
@@ -48,7 +28,7 @@ const getComicById = (req, res) => {
       success: true,
       ...comic,
     }))
-    .catch(err => res.json({
+    .catch(err => res.status(404).json({
       success: false,
       msg: (
         err.response &&
@@ -61,5 +41,4 @@ const getComicById = (req, res) => {
 module.exports = {
   getAllComics,
   getComicById,
-  getCharacterComics,
 };

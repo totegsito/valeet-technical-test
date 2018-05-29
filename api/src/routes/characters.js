@@ -12,7 +12,7 @@ const getComicsByCharacterId = (req, res) => {
       success: true,
       ...comics,
     }))
-    .catch(err => res.json({
+    .catch(err => res.status(404).json({
       success: false,
       msg: (
         err.response &&
@@ -29,7 +29,7 @@ const getCharacterById = (req, res) => {
       success: true,
       ...character,
     }))
-    .catch(err => res.json({
+    .catch(err => res.status(404).json({
       success: false,
       msg: (
         err.response &&
