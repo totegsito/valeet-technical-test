@@ -7,7 +7,7 @@ services:
   mongo:
     image: mongo:latest
     volumes:
-      - "~/data-valeet/mongo:/data/db"
+      - ~/data-valeet/mongo:/data/db
   api:
     build:
       context: .
@@ -23,8 +23,6 @@ services:
     depends_on:
       - redis
       - mongo
-    links:
-      - mongo
   web:
     build:
       context: .
@@ -32,7 +30,7 @@ services:
     env_file:
       - ./app/.env
     environment:
-      - API_URL=http://localhost:4001
+      - API_URL=http://api:4001
     ports:
       - "4000:3000"
     depends_on:
