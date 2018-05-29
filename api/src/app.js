@@ -6,6 +6,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const helmet = require('helmet');
+const compression = require('compression');
 
 
 const { databaseURL } = require('../config/database');
@@ -21,6 +22,7 @@ app.use(logger('dev'));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json({ limit: '10mb' }));
 app.use(cookieParser());
+app.use(compression());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
