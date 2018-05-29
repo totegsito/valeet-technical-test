@@ -28,6 +28,8 @@ services:
       dockerfile: Dockerfile-web
     env_file:
       - ./app/.env
+    environment:
+      - API_URL=localhost:8080
     ports:
       - "4000:3000"
     depends_on:

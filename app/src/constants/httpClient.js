@@ -1,8 +1,4 @@
-const baseURL = (
-  process.env.API_HOST &&
-  process.env.API_PORT &&
-  `${process.env.API_HOST}:${process.env.API_PORT}`
-) || 'localhost:3002';
+const baseURL = process.env.API_URL || 'localhost:8080';
 
 export const baseUrl = `http://${baseURL}`;
 
