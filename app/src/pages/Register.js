@@ -1,7 +1,8 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class Login extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +12,11 @@ class Login extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+  }
+
+  handleSignUp() {
+    this.props.onSignUpSubmit(this.state);
   }
 
   handleChange(field, val) {
@@ -32,7 +38,7 @@ class Login extends Component {
                 className="input"
                 placeholder="Username"
                 id="registerEmailInput"
-                onChange={e => this.handleChange('email', e.target.value)}
+                onChange={e => this.handleChange('username', e.target.value)}
               />
             </div>
           </div>
@@ -58,10 +64,19 @@ class Login extends Component {
               />
             </div>
           </div>
+          <div className="field">
+            <div className="control">
+              <button className="button is-link" onClick={this.handleSignUp}>SignUp</button>
+            </div>
+          </div>
         </div>
       </section>
     );
   }
 }
 
-export default Login;
+SignUp.propTypes = {
+  onSignUpSubmit: PropTypes.func.isRequired,
+};
+
+export default SignUp;

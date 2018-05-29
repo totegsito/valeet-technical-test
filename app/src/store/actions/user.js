@@ -6,21 +6,26 @@ import { setAuthenticationHeader } from '../../services/base';
 export function signUp(formData) {
   const {
     password,
-    password2,
     username,
+    confirmPassword,
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
     // Validation checks
     if (!username) return reject(new Error(ErrorMessages.missingUsername));
     if (!password) return reject(new Error(ErrorMessages.missingPassword));
-    if (!password2) return reject(new Error(ErrorMessages.missingPassword));
-    if (password !== password2) return reject(new Error(ErrorMessages.passwordsDontMatch));
+    if (!confirmPassword) return reject(new Error(ErrorMessages.missingPassword));
+    if (password !== confirmPassword) return reject(new Error(ErrorMessages.passwordsDontMatch));
     await statusMessage(dispatch, 'loading', true);
 
     return createUser({ username, password })
-      .catch(reject)
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      })
       .then(() => statusMessage(dispatch, 'loading', false)
+        .catch(reject)
+        .then(() => statusMessage(dispatch, 'success', 'User created successfully'))
         .catch(reject)
         .then(resolve));
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });

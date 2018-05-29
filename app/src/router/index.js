@@ -7,6 +7,9 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import LoginContainer from '../containers/Login';
 
+import SignUp from '../pages/Register';
+import SignUpContainer from '../containers/SignUp';
+
 // import ComicsList from '../components/ComicList';
 // import ComicsListContainer from '../containers/ComicList';
 
@@ -14,7 +17,6 @@ import Main from '../pages/MainPage';
 
 import Notification from '../containers/Notification';
 
-import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
 import Loader from '../components/Loader';
 
@@ -74,7 +76,7 @@ class Routes extends Component {
               </div>
             </div>
           </nav>
-          <main className={`container ${loading ? 'no-scroll' : ''}`}>
+          <main className={`container main-container ${loading ? 'no-scroll' : ''}`}>
             <Loader loading={loading} />
             {
               (error &&
@@ -103,7 +105,11 @@ class Routes extends Component {
               />
               <Route
                 path="/register"
-                component={Register}
+                render={props => (
+                  success ?
+                    <Redirect to="/login" /> :
+                    <SignUpContainer {...props} Layout={SignUp} />
+                )}
               />
               <Route component={NotFound} />
             </Switch>

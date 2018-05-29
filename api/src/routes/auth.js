@@ -8,7 +8,7 @@ const User = require('../models/user');
 
 const signUp = (req, res) => {
   if (!req.body.username || !req.body.password) {
-    res.json({
+    res.status(400).json({
       success: false,
       msg: 'Please pass username and password.',
     });
@@ -20,7 +20,8 @@ const signUp = (req, res) => {
     // save the user
     newUser.save((err) => {
       if (err) {
-        return res.json({
+        console.log(err);
+        return res.status(422).json({
           success: false,
           msg: 'Username already exists.',
         });
