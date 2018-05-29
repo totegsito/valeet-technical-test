@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const helmet = require('helmet');
 
 
 const { databaseURL } = require('../config/database');
@@ -15,6 +16,7 @@ mongoose.connect(databaseURL);
 
 const app = express();
 
+app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json({ limit: '10mb' }));
@@ -44,7 +46,7 @@ app.use((err, req, res) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err);
 });
 
 module.exports = app;
