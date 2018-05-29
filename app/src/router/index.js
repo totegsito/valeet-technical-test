@@ -5,8 +5,12 @@ import { BrowserRouter, NavLink, Redirect, Route, Switch } from 'react-router-do
 import Home from '../pages/Home';
 
 import Login from '../pages/Login';
-import Notification from '../containers/Notification';
 import LoginContainer from '../containers/Login';
+
+import ComicsList from '../pages/ComicsList';
+import ComicsListContainer from '../containers/ComicsList';
+
+import Notification from '../containers/Notification';
 
 import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
@@ -49,10 +53,22 @@ class Routes extends Component {
               <Notification message={error} />
             }
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route
+                exact
+                path="/"
+                render={props =>
+                  (user.loggedIn ?
+                    <ComicsListContainer {...props} Layout={ComicsList} /> :
+                    <Home {...props} />)
+                }
+              />
               <Route
                 path="/login"
-                render={props => (user.loggedIn ? <Redirect to="/home" /> : <LoginContainer {...props} Layout={Login} />)}
+                render={props => (
+                  user.loggedIn ?
+                    <Redirect to="/home" /> :
+                    <LoginContainer {...props} Layout={Login} />
+                )}
               />
               <Route
                 path="/register"

@@ -5,8 +5,6 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: null,
-      surname: null,
       email: null,
       password: null,
       confirmPassword: null,
@@ -32,29 +30,7 @@ class Login extends Component {
               <input
                 type="text"
                 className="input"
-                placeholder="Name"
-                id="registerNameInput"
-                onChange={e => this.handleChange('name', e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                type="text"
-                className="input"
-                placeholder="Surname"
-                id="registerSurnameInput"
-                onChange={e => this.handleChange('surname', e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                type="text"
-                className="input"
-                placeholder="Email"
+                placeholder="Username"
                 id="registerEmailInput"
                 onChange={e => this.handleChange('email', e.target.value)}
               />
