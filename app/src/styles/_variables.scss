@@ -1,8 +1,10 @@
 @import '~bulma/sass/utilities/initial-variables.sass';
+@import "~bulma/sass/utilities/functions";
 
 // ADD HERE variables you want to override
-$primary: #ED1D24;
+$red: #ED1D24;
+$primary: $red;
 $danger: #EF7A1D;
 
 
-@import '~bulma/sass/utilities/_all.sass';
+@import '~bulma';

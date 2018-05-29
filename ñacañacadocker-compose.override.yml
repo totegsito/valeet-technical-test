@@ -1,0 +1,36 @@
+version: '3'
+services:
+  redis:
+    image: redis:3-alpine
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - "~/data-valeet/mongo:/data/db"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    env_file:
+      - ./api/.env
+    command: npm run start:dev # development
+    ports:
+      - "4001:8080"
+    depends_on:
+      - mongo
+      - redis
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    env_file:
+      - ./app/.env
+    environment:
+      - DIST_URL=http://localhost:8080/dist
+      - APP_ENV=development
+      - WEBPACK_PORT=8080
+    command: npm start # development
+    ports:
+      - "4000:3000"
+      - "8080:8080" # development

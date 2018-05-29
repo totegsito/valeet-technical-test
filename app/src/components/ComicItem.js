@@ -6,29 +6,22 @@ const ComicItem = ({
   thumbnail,
   description,
 }) => (
-  <div className="card">
-    <div className="card-image">
-      <figure className="image is-4by3">
-        <img src={`${thumbnail.path}/portrait_xlarge.${thumbnail.extension}`} alt={`${name} placeholder`} />
-      </figure>
-    </div>
-    <div className="card-content">
-      <div className="media">
-        <div className="media-left">
-          <figure className="image is-48x48">
-            <img src={`${thumbnail.path}/portrait_small.${thumbnail.extension}`} alt={`${name} placeholder`} />
-          </figure>
-        </div>
-        <div className="media-content">
-          <p className="title is-4">{name}</p>
-        </div>
-      </div>
-
+  <article className="media">
+    <figure className="media-left">
+      <p className="image is-64x64">
+        <img src={`${thumbnail.path}/portrait_xlarge.${thumbnail.extension}`} alt={`${name} cover placeholder`} />
+      </p>
+    </figure>
+    <div className="media-content">
       <div className="content">
-        {description}
+        <p>
+          <strong>{name}</strong>
+          <br />
+          {description}
+        </p>
       </div>
     </div>
-  </div>
+  </article>
 );
 
 ComicItem.propTypes = {

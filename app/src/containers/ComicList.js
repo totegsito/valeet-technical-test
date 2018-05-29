@@ -1,40 +1,53 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Notification from '../components/Notification';
-import { getCurrentComic } from '../store/actions/superhero';
 
-class ComicListContainer extends Component {
-  componentWillMount() {
-    this.props.
-  }
-}
+import { setLoadingStatus } from '../store/actions/status';
 
-const ComicListContainer = ({ superhero, type, closeNotification }) => (
-  <Notification
-    type={type}
-    message={message}
-    closeNotification={closeNotification}
+const ComicListContainer = ({
+  user,
+  Layout,
+  loading,
+  superhero,
+  setLoading,
+  errorMessage,
+  successMessage,
+}) => (
+  <Layout
+    user={user}
+    loading={loading}
+    error={errorMessage}
+    superhero={superhero}
+    success={successMessage}
+    setLoading={setLoading}
   />
 );
 
 ComicListContainer.propTypes = {
-  message: PropTypes.string,
-  type: PropTypes.oneOf(['success', 'error']),
-  closeNotification: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
+  Layout: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.shape({}).isRequired,
+  setLoading: PropTypes.func.isRequired,
+  superhero: PropTypes.shape({}).isRequired,
 };
 
 ComicListContainer.defaultProps = {
-  type: 'error',
-  message: null,
+  errorMessage: null,
+  successMessage: null,
 };
 
 const mapStateToProps = state => ({
-  message: state.status.error || state.status.success || null,
+  user: state.user || {},
+  superhero: state.superhero || {},
+  loading: state.status.loading || false,
+  errorMessage: state.status.error || null,
+  successMessage: state.status.success || null,
 });
 
 const mapDispatchToProps = {
-  closeNotification: resetStatus,
+  setLoading: setLoadingStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComicListContainer);

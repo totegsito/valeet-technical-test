@@ -12,6 +12,14 @@ export const resetStatus = type =>
     }));
   });
 
+export const setLoadingStatus = val =>
+  dispatch =>
+    new Promise(resolve =>
+      resolve(dispatch({
+        type: 'STATUS_REPLACE',
+        loading: val,
+      })));
+
 /**
   * Show Status
   */

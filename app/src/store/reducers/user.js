@@ -10,8 +10,8 @@ export default function userReducer(state = initialState(), action) {
         ...state,
         loading: false,
         isLoggedIn: true,
-        token: action.token,
-        username: action.username,
+        token: action.data.token,
+        username: action.data.username,
       };
     case 'USER_ERROR': {
       if (action.data) {

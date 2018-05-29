@@ -44,7 +44,7 @@ export function login(formData) {
       return signIn({ username, password })
         .then(async (res) => {
           await statusMessage(dispatch, 'loading', false);
-          setAuthenticationHeader(res.token);
+          setAuthenticationHeader(res.data.token);
           return resolve(dispatch({
             type: 'USER_LOGIN',
             data: { ...res.data, username },
@@ -56,6 +56,19 @@ export function login(formData) {
       throw ex;
     }
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); });
+}
+
+
+export function logout() {
+  return dispatch => new Promise(async (resolve) => {
+    await statusMessage(dispatch, 'loading', true);
+    dispatch({ type: 'USER_RESET' });
+    setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
+    await statusMessage(dispatch, 'loading', false);
+  }).catch(async (err) => {
+    await statusMessage(dispatch, 'error', (err.response && err.response.data && err.response.data.message) || err.message);
+    throw err.message;
+  });
 }
 
 

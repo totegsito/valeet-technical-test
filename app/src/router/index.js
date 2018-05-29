@@ -7,8 +7,8 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import LoginContainer from '../containers/Login';
 
-import ComicsList from '../pages/ComicsList';
-import ComicsListContainer from '../containers/ComicsList';
+import ComicsList from '../components/ComicList';
+import ComicsListContainer from '../containers/ComicList';
 
 import Notification from '../containers/Notification';
 
@@ -18,9 +18,23 @@ import Loader from '../components/Loader';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Routes extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    this.props.onLogoutSubmit();
+  }
+
   render() {
-    const { user, error } = this.props;
-    console.log(user);
+    const {
+      user,
+      error,
+      loading,
+      success,
+    } = this.props;
     return (
       <BrowserRouter>
         <div>
@@ -31,7 +45,7 @@ class Routes extends Component {
             <div className="navbar-menu">
               <div className="navbar-end" position="end">
                 {
-                  (!user || !user.isLoggedIn) &&
+                  ((!user || !user.isLoggedIn) &&
                   [
                     <NavLink key="login" to="login" className="navbar-item">Login</NavLink>,
                     <NavLink
@@ -41,23 +55,35 @@ class Routes extends Component {
                     >
                       Register
                     </NavLink>,
-                  ]
+                  ]) ||
+                  <a
+                    tabIndex="0"
+                    role="button"
+                    className="navbar-item"
+                    onClick={this.handleLogout}
+                    onKeyPress={this.handleLogout}
+                  >
+                  Logout
+                  </a>
                 }
               </div>
             </div>
           </nav>
-          <Loader />
-          <main className="container is-warning">
+          <main className={`container ${loading ? 'no-scroll' : ''}`}>
+            <Loader loading={loading} />
             {
-              error &&
-              <Notification message={error} />
+              (error &&
+              <Notification message={error} />)
+              || (success &&
+                <Notification message={success} type="success" />
+              )
             }
             <Switch>
               <Route
                 exact
                 path="/"
                 render={props =>
-                  (user.loggedIn ?
+                  (user.isLoggedIn ?
                     <ComicsListContainer {...props} Layout={ComicsList} /> :
                     <Home {...props} />)
                 }
@@ -65,8 +91,8 @@ class Routes extends Component {
               <Route
                 path="/login"
                 render={props => (
-                  user.loggedIn ?
-                    <Redirect to="/home" /> :
+                  user.isLoggedIn ?
+                    <Redirect to="/" /> :
                     <LoginContainer {...props} Layout={Login} />
                 )}
               />
@@ -84,12 +110,17 @@ class Routes extends Component {
 }
 
 Routes.propTypes = {
-  user: PropTypes.shape({}).isRequired,
   error: PropTypes.string,
+  success: PropTypes.string,
+  loading: PropTypes.bool,
+  user: PropTypes.shape({}).isRequired,
+  onLogoutSubmit: PropTypes.func.isRequired,
 };
 
 Routes.defaultProps = {
   error: null,
+  success: null,
+  loading: false,
 };
 
 
