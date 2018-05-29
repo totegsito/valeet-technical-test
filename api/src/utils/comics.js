@@ -6,7 +6,6 @@ const takeWhatYouNeedFromAComicList = data => ({
   results: data.data.results.map(comic => ({
     id: comic.id,
     title: comic.title,
-    images: comic.images,
     digitalId: comic.digitalId,
     thumbnail: comic.thumbnail,
     description: comic.description,

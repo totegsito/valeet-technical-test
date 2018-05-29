@@ -8,11 +8,6 @@ const { getAllComics, getCharacterComics, getComicById } = require('./comics');
 
 const router = express.Router();
 
-/* GET home page. */
-router.get('/', (req, res) => {
-  res.render('index', { title: 'Express' });
-});
-
 router.post('/signup', auth.signUp);
 router.post('/signin', auth.signIn);
 
