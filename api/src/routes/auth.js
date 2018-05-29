@@ -54,13 +54,17 @@ const signIn = (req, res) => {
           msg: 'Authentication failed. Wrong password.',
         });
       }
-      const { username, password } = user;
+      const { username, password, id } = user;
       // if user is found and password is right create a token
-      const token = jwt.sign({ username, password }, config.secret, { expiresIn: 60 * 60 });
+      const token = jwt.sign({
+        id,
+        username,
+        password,
+      }, config.secret, { expiresIn: 60 * 60 });
       // return the information including token as JSON
       return res.json({
         success: true,
-        token: `JWT ${token}`,
+        token: `Bearer ${token}`,
       });
     });
   });
