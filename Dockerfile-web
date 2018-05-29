@@ -16,10 +16,8 @@ COPY app/package.json ./package.json
 RUN apk --no-cache add --virtual native-deps \
   g++ gcc libgcc libstdc++ linux-headers make python git openssh && \
   npm install --quiet node-gyp -g &&\
-  npm install --quiet serve -g &&\
   npm install --quiet && \
-  npm run build && \
   apk del native-deps
 
 # EXPOSE 8080
-CMD [ "serve", "help" ]
+CMD [ "npm", "start" ]

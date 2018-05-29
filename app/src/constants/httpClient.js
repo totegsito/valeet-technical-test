@@ -1,4 +1,4 @@
-const baseURL = process.env.API_URL || 'http://api:4001';
+const baseURL = process.env.API_URL || 'http://localhost:4001';
 
 export const baseUrl = baseURL;
 
